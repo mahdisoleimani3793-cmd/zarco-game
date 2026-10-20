@@ -106,7 +106,8 @@ export default function Home() {
               </div>
               <div className="quickAmounts">{[10, 50, 100, 250].map(n => <button key={n} onClick={() => setStake(Math.min(n, Math.max(credit, 1)))} disabled={running}>{n.toLocaleString("fa-IR")}</button>)}</div>
             </div>
-            <div className="actionBlock">
+            
+<div className="actionBlock">
   {running ? (
     <button className="primary cashout" onClick={cashOut}>
       برداشت امتیاز · {Math.round(activeStake * multiplier).toLocaleString("fa-IR")} ◈
@@ -116,6 +117,13 @@ export default function Home() {
       دور جدید <span>↗</span>
     </button>
   ) : (
+    <button className="primary" onClick={startRound} disabled={credit < 1}>
+      شروع بازی <span>↗</span>
+    </button>
+  )}
+  <p className="message" aria-live="polite">{message}</p>
+</div>
+
     <button className="primary" onClick={startRound} disabled={credit < 1}>
       شروع بازی <span>↗</span>
     </button>
