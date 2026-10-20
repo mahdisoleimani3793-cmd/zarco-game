@@ -128,12 +128,7 @@ export default function Home() {
 
   
 
-    <button className="primary" onClick={startRound} disabled={credit < 1}>
-      شروع بازی <span>↗</span>
-    </button>
-  )}
-  <p className="message" aria-live="polite">{message}</p>
-</div>
+    
               <p className="message" aria-live="polite">{message}</p>
             </div>
             <div className="payout"><span>ضریب فعلی</span><strong>{multiplier.toFixed(2)}x</strong><span>اعتبار قابل برداشت</span><strong>{running ? Math.floor(activeStake * multiplier).toLocaleString("fa-IR") : "—"}</strong></div>
