@@ -107,9 +107,21 @@ export default function Home() {
               <div className="quickAmounts">{[10, 50, 100, 250].map(n => <button key={n} onClick={() => setStake(Math.min(n, Math.max(credit, 1)))} disabled={running}>{n.toLocaleString("fa-IR")}</button>)}</div>
             </div>
             <div className="actionBlock">
-             Math.round(activeStake * multiplier).toLocaleString("fa-IR")
-                status === "crashed" || status === "cashed" ? <button className="primary" onClick={resetRound}>دور جدید <span>↗</span></button> :
-                <button className="primary" onClick={startRound} disabled={credit < 1}>شروع بازی <span>↗</span></button>}
+  {running ? (
+    <button className="primary cashout" onClick={cashOut}>
+      برداشت امتیاز · {Math.round(activeStake * multiplier).toLocaleString("fa-IR")} ◈
+    </button>
+  ) : status === "crashed" || status === "cashed" ? (
+    <button className="primary" onClick={resetRound}>
+      دور جدید <span>↗</span>
+    </button>
+  ) : (
+    <button className="primary" onClick={startRound} disabled={credit < 1}>
+      شروع بازی <span>↗</span>
+    </button>
+  )}
+  <p className="message" aria-live="polite">{message}</p>
+</div>
               <p className="message" aria-live="polite">{message}</p>
             </div>
             <div className="payout"><span>ضریب فعلی</span><strong>{multiplier.toFixed(2)}x</strong><span>اعتبار قابل برداشت</span><strong>{running ? Math.floor(activeStake * multiplier).toLocaleString("fa-IR") : "—"}</strong></div>
