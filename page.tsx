@@ -108,6 +108,7 @@ export default function Home() {
             </div>
             
 
+
 <div className="actionBlock">
   {running ? (
     <button className="primary cashout" onClick={cashOut}>
@@ -121,12 +122,11 @@ export default function Home() {
     <button className="primary" onClick={startRound} disabled={credit < 1}>
       شروع بازی <span>↗</span>
     </button>
-  <p className="message" aria-live="polite">{message}</p>
-</div>
-
   )}
   <p className="message" aria-live="polite">{message}</p>
 </div>
+
+  
 
     <button className="primary" onClick={startRound} disabled={credit < 1}>
       شروع بازی <span>↗</span>
