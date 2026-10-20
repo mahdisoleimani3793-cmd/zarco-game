@@ -27,8 +27,9 @@ export default function Home() {
     if (status === "running" || status === "cashed") return;
     if (stake < 1 || stake > credit) {
       setMessage("مبلغ مجازی باید بین ۱ و موجودی فعلی باشد.");
-      return (
-  <>
+return;
+}
+setCredit(v => v - stake);
     setCredit(v => v - stake);
     setActiveStake(stake);
     setMultiplier(1);
