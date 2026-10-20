@@ -25,12 +25,13 @@ export default function Home() {
 
   function startRound() {
     if (status === "running" || status === "cashed") return;
-    if (stake < 1 || stake > credit) {
-      setMessage("مبلغ مجازی باید بین ۱ و موجودی فعلی باشد.");
-return;
+    
+if (stake < 1 || stake > credit) {
+  setMessage("مبلغ مجازی باید بین ۱ و موجودی فعلی باشد.");
+  return;
 }
 setCredit(v => v - stake);
-    setCredit(v => v - stake);
+
     setActiveStake(stake);
     setMultiplier(1);
     setStatus("running");
