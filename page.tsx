@@ -36,19 +36,44 @@ const [creditLoaded, setCreditLoaded] = useState(false);
       if (timer.current) clearInterval(timer.current);
     };
   }, []);
+
 useEffect(() => {
-  const savedCredit = localStorage.getItem("zarco-credit");
+  let active = true;
 
-  if (savedCredit !== null) {
-    const value = Number(savedCredit);
+  async function loadBalance() {
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
 
-    if (Number.isSafeInteger(value) && value >= 0) {
-      setCredit(value);
+    if (!active) return;
+
+    if (userError || !user) {
+      window.location.href = "/login";
+      return;
     }
+
+    const { data, error } = await supabase.rpc("get_my_balance");
+
+    if (!active) return;
+
+    if (error) {
+      console.error("Balance load failed:", error.message);
+      setCreditLoaded(true);
+      return;
+    }
+
+    if (typeof data === "number" && Number.isSafeInteger(data) && data >= 0) {
+      setCredit(data);
+    }
+
+    setCreditLoaded(true);
   }
 
-  setCreditLoaded(true);
+  loadBalance();
+
+  return () => {
+    active = false;
+  };
 }, []);
+
 
 useEffect(() => {
   if (creditLoaded) {
