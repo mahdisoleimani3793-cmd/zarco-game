@@ -78,7 +78,7 @@ useEffect(() => {
 useEffect(() => {
   // Balance is loaded from Supabase.
 }, []);
-  function startRound() {
+  async function startRound() {
     if (status === "running") return;
 
     if (stake < 1 || stake > credit) {
@@ -86,7 +86,18 @@ useEffect(() => {
       return;
     }
 
-    setCredit((value) => value - stake);
+    
+const { data: newBalance, error } = await supabase.rpc("place_bet", {
+  p_amount: stake,
+});
+
+if (error) {
+  setMessage("ثبت شرط ناموفق بود. لطفاً دوباره تلاش کن.");
+  return;
+}
+
+setCredit(Number(newBalance));
+
     setActiveStake(stake);
     setMultiplier(1);
     setStatus("running");
@@ -128,7 +139,7 @@ useEffect(() => {
     }, 60);
   }
 
-  function cashOut() {
+  async function cashOut() {
     if (status !== "running") return;
 
     if (timer.current) clearInterval(timer.current);
@@ -136,7 +147,18 @@ useEffect(() => {
 
     const win = Math.floor(activeStake * multiplier);
 
-    setCredit((value) => value + win);
+    
+const { data: newBalance, error } = await supabase.rpc("cash_out", {
+  p_amount: win,
+});
+
+if (error) {
+  setMessage("ذخیرهٔ برداشت ناموفق بود. لطفاً دوباره تلاش کن.");
+  return;
+}
+
+setCredit(Number(newBalance));
+
     setStatus("cashed");
     setMessage(
       `برداشت آزمایشی ثبت شد: ${win.toLocaleString("fa-IR")} امتیاز مجازی.`
