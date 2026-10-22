@@ -76,10 +76,8 @@ useEffect(() => {
 
 
 useEffect(() => {
-  if (creditLoaded) {
-    localStorage.setItem("zarco-credit", String(credit));
-  }
-}, [credit, creditLoaded]);
+  // Balance is loaded from Supabase.
+}, []);
   function startRound() {
     if (status === "running") return;
 
