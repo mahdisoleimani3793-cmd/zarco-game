@@ -12,6 +12,7 @@ export default function Home() {
   const [multiplier, setMultiplier] = useState(1);
   const [status, setStatus] = useState<"ready" | "running" | "crashed" | "cashed">("ready");
   const [credit, setCredit] = useState(1000);
+const [creditLoaded, setCreditLoaded] = useState(false);
   const [stake, setStake] = useState(50);
   const [activeStake, setActiveStake] = useState(0);
 
@@ -35,7 +36,25 @@ export default function Home() {
       if (timer.current) clearInterval(timer.current);
     };
   }, []);
+useEffect(() => {
+  const savedCredit = localStorage.getItem("zarco-credit");
 
+  if (savedCredit !== null) {
+    const value = Number(savedCredit);
+
+    if (Number.isSafeInteger(value) && value >= 0) {
+      setCredit(value);
+    }
+  }
+
+  setCreditLoaded(true);
+}, []);
+
+useEffect(() => {
+  if (creditLoaded) {
+    localStorage.setItem("zarco-credit", String(credit));
+  }
+}, [credit, creditLoaded]);
   function startRound() {
     if (status === "running") return;
 
