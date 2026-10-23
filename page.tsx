@@ -153,7 +153,7 @@ const { data: newBalance, error } = await supabase.rpc("cash_out", {
 });
 
 if (error) {
-  setMessage("ذخیرهٔ برداشت ناموفق بود. لطفاً دوباره تلاش کن.");
+  setMessage(`خطای برداشت: ${error.message}`);
   return;
 }
 
